@@ -19,6 +19,10 @@ public class SudokuBean {
 	private SudokuDifficulty diff = SudokuDifficulty.EASY;
 	private String diffString = "easy";
 	
+	public SudokuBean(){
+		updateFormattedArr();
+	}
+	
 	public void updateFormattedArr() {
 		for(int i=0; i<field.length; i++){
 			for(int j=0; j<field[i].length; j++){

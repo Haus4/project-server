@@ -1,0 +1,21 @@
+a {
+	text-decoration: none;
+	color: black;
+	margin: 16px;
+	padding: 30px;
+}
+
+a:hover {
+	background: grey;
+}
+
+span {
+	text-align: center;
+}
+
+#diffSelector {
+	background: 
+    border: 2px solid black;
+    padding: 32px;
+    width: 450px;
+}
