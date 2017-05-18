@@ -34,7 +34,6 @@
 	<table>
 		<c:set var="rows" value="${ sudokuBean.getRows() }"></c:set>
 		<c:set var="collumns" value="${ sudokuBean.getCollumns() }"></c:set>
-		<% sudokuBean.updateFormattedArr(); %>
 		<c:set var="fieldArr" value="${ sudokuBean.getFormattedArr() }"></c:set>
 		<c:forEach begin="0" end="${rows-1}" var="i">
 		<tr id="${i}">
