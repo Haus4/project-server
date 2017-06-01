@@ -1,17 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta charset="ISO-8859-1">
 	<title>Sudoku</title>
-	<link rel="stylesheet" href="index_style.css">
+	<link rel="stylesheet" href="Sudoku.css" type="text/css">
 </head>
 <body>
-	<h2>Sudoku</h2><br/><br/><br/>
-	<span>Difficulty:</span>
-	<div id="diffSelector">
-		<a href="sudoku.jsp?diff=EASY" id="easy">EASY</a>
-		<a href="sudoku.jsp?diff=MEDIUM" id="medium">MEDIUM</a>
-		<a href="sudoku.jsp?diff=HARD" id="hard">HARD</a>
-	</div>
+	<header>
+		<h1>SUDOKU</h1>
+	</header>
+	
+	<nav>
+		<ul>
+			<li> <a href="">Jetzt spielen</a> 
+				<ul>
+					<li><a href="">Easy</a></li>
+					<li><a href="">Medium</a></li>
+					<li><a href="">Hard</a></li>
+				</ul>
+			</li>
+			<li><a href="">Anleitung</a></li>
+		</ul>
+	</nav>
+	
+	<h1>Herzlich Willkommen!</h1>
+	<div>Diese Website wurde von den Studenten aus dem Kurs TINF16B4 der DHBW Karlsruhe erstellt.</div>
+	<div>Wir wünschen Ihnen viel Freude beim Spielen! </div> <br><br><br>
+	<ul>
+		<li id="schwierigkeit">Easy</li>
+		<li id="schwierigkeit">Medium</li>
+		<li id="schwierigkeit">Hard</li>
+	</ul> <br><br>
+	<ul> <li> <a href="">
+			<img border="0" height="200" width="200" alt="Easy" src="Sudoku.png" width="100">
+		</a> </li>
+		<li> <a href="">
+			<img border="0" height="200" width="200" alt="Middle" src="Sudoku.png">
+		</a> </li>
+		<li> <a href="">
+			<img border="0" height="200" width="200" alt="Hard" src="Sudoku.png" >
+		</a> </li>
+	</ul>
+
+	
+	
+	
+	<footer>
+		<ul>
+			<li> <a href="">Impressum</a> </li>
+			<li><a href="">Kontakt</a></li>
+		</ul>
+	</footer>
 </body>
 </html>
