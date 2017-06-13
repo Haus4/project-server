@@ -21,6 +21,9 @@
 			</c:forEach>
 		</tr>
 		</c:forEach>
-	</table>
+	</table><br/>
+	<div id="messageContainer">
+		<textarea id ="messageBoard" rows="4" cols="50">Console:</textarea>
+	</div>
 </body>
 </html>
