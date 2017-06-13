@@ -1,17 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Sudoku</title>
-	<link rel="stylesheet" href="index_style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <title>Sudoku</title>
 </head>
+
 <body>
-	<h2>Sudoku</h2><br/><br/><br/>
-	<span>Difficulty:</span>
-	<div id="diffSelector">
-		<a href="sudoku.jsp?diff=EASY" id="easy">EASY</a>
-		<a href="sudoku.jsp?diff=MEDIUM" id="medium">MEDIUM</a>
-		<a href="sudoku.jsp?diff=HARD" id="hard">HARD</a>
-	</div>
+  <div class="header">
+    <h1>Sudoku</h1>
+  </div>
+  <nav>
+    <div class="container">
+      <ul>
+        <li>
+          <div>Anleitung</div>
+        </li>
+        <li>
+          <div>Kontakt</div>
+        </li>
+        <li>
+          <div class="dropdown">Jetzt spielen
+            <ul class="dropdown-items">
+              <li><a href="#">Einfach</a></li>
+              <li><a href="#">Mittel</a></li>
+              <li><a href="#">Schwer</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <main class="container">
+    <h1>Herzlich Willkommen!</h1>
+    <p>Diese Website wurde von den Studenten aus dem Kurs TINF16B4 der DHBW Karlsruhe erstellt.</p>
+    <p>Wir wünschen Ihnen viel Freude beim Spielen!</p>
+    <br/><br/><br/>
+
+    <div class="schwierigkeiten">
+      <ul>
+        <li>
+          <a href="#">
+            <p>Einfach</p><img border="0" height="200" width="200" alt="Easy" src="img/sudoku.png" width="100">
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <p>Mittel</p><img border="0" height="200" width="200" alt="Middle" src="img/sudoku.png">
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <p>Schwer</p><img border="0" height="200" width="200" alt="Hard" src="img/sudoku.png">
+          </a>
+        </li>
+      </ul>
+    </div>
+  </main>
 </body>
+<footer>
+  <div class="container">
+    <ul>
+      <li><a href="#">Impressum</a> </li>
+      <li><a href="#">Kontakt</a></li>
+    </ul>
+  </div>
+</footer>
+
 </html>

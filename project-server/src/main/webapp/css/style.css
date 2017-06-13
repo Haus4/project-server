@@ -1,0 +1,164 @@
+html {
+  margin: 0;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+}
+
+.header {
+  background-image: url('../img/header.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 150px;
+  line-height: 150px;
+  width: 100%;
+}
+
+.header>h1 {
+  font-family: 'Segoe UI Light';
+  font-weight: 100;
+  font-size: 75px;
+  margin: 0;
+  text-align: center;
+}
+
+nav {
+  background-color: #262626;
+  width: 100%;
+}
+
+nav>.container>ul {
+  margin: 0;
+  padding: 0px;
+}
+
+nav>.container>ul>li {
+  display: inline-block;
+}
+
+.dropdown-items {
+  cursor: default;
+  display: none;
+  position: absolute;
+  background: gray;
+  width: calc(100% - 2px);
+  list-style-type: none;
+  padding: 0;
+  top: 45px;
+  left: 0px;
+  background-color: #e6e6e6;
+  color: #262626;
+  opacity: 0;
+  transition: all 0.1s linear;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.dropdown-items li {
+  padding-top: 10px;
+}
+
+.dropdown-items a {
+  padding-left: 5px;
+  transition: padding 0.1s linear;
+  cursor: pointer;
+}
+
+.dropdown-items a:hover {
+  padding-left: 8px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown:hover .dropdown-items {
+  display: inline-block;
+  opacity: 1;
+}
+
+nav>.container>ul>li>div {
+  color: white;
+  display: inline-block;
+  text-decoration: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: all 0.1s linear;
+}
+
+nav>.container>ul>li>div:hover {
+  background-color: #e6e6e6;
+  color: #262626;
+}
+
+.schwierigkeiten {
+  width: 100%;
+  text-align: center;
+}
+
+.schwierigkeiten ul {
+  list-style-type: none;
+  display: inline;
+  padding: 0;
+}
+
+.schwierigkeiten ul li {
+  display: inline-block;
+  text-align: center;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+footer {
+  margin-top: 150px !important;
+  width: 100%;
+  background-color: #262626;
+}
+
+footer>.container>ul {
+  margin: 0;
+  padding: 0px;
+}
+
+footer>.container>ul>li {
+  display: inline-block;
+  color: white;
+  padding: 60px 0px;
+  padding-right: 30px;
+}
+
+.container {
+  margin: 0px 10px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    margin: 0px 50px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    margin: 0px 150px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    margin: 0px 200px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    margin: 0px 250px;
+  }
+}
