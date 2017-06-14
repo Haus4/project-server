@@ -23,7 +23,7 @@
 		</c:forEach>
 	</table><br/>
 	<div id="messageContainer">
-		<textarea id ="messageBoard" rows="4" cols="50">Console:</textarea>
+		<textarea id ="messageBoard" rows="4" cols="72">Console:</textarea>
 	</div>
 </body>
 </html>

@@ -3,12 +3,16 @@ $(document).ready(function() {
 });
 	
 function tdClickHandler(e){
-	var input = document.createElement('input');
-	input.id = "inputField";
-	e.target.innerHTML = "";
-	e.target.append(input);
-	$('#inputField').unbind('keyup');
-	$('#inputField').keyup(inputKeyUpHandler);
+	e.stopPropagation()
+	if (e.target.id != 'inputField') {
+		$('#inputField').remove()
+		var input = document.createElement('input');
+		input.id = "inputField";
+		e.target.innerHTML = "";
+		e.target.append(input);
+		$('#inputField').unbind('keyup');
+		$('#inputField').keyup(inputKeyUpHandler);
+	}
 }
 function inputKeyUpHandler(e){
 	var key = e.which;
@@ -25,4 +29,5 @@ function inputKeyUpHandler(e){
 }
 function writeToMessageBoard(m){
 	$('#messageBoard').append(document.createTextNode( "\n"+m ))
+	$('#messageBoard').scrollTop($('#messageBoard')[0].scrollHeight);
 }

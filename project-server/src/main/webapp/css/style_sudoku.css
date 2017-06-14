@@ -19,3 +19,7 @@ th, td {
 input {
 	width: 20px;
 } 
+
+textarea {
+	resize: none;
+}
