@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$("td").click(tdClickHandler);
+	$("td[class='active']").click(tdClickHandler);
 });
 	
 function tdClickHandler(e){

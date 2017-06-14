@@ -17,7 +17,11 @@
 		<c:forEach begin="0" end="${rows-1}" var="i">
 		<tr id="${i}">
 			<c:forEach begin="0" end="${collumns-1}" var="j">
-			<td id="${sudokuBean.parseID(i,j)}">${ fieldArr[i][j] }</td>
+				<c:set var="active" value=""></c:set>
+				<c:if test="${fieldArr[i][j] == ' '}">
+					<c:set var="active" value="active"></c:set>
+				</c:if>	
+				<td id="${sudokuBean.parseID(i,j)}" class="${active}">${ fieldArr[i][j] }</td>
 			</c:forEach>
 		</tr>
 		</c:forEach>
