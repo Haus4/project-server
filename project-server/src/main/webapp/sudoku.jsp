@@ -50,7 +50,7 @@
               <c:if test="${fieldArr[i][j] == ' '}">
                 <c:set var="active" value="active"></c:set>
               </c:if>
-              <td id="${sudokuBean.parseID(i,j)}" class="${active}">${ fieldArr[i][j] }</td>
+              <td id="${sudokuBean.parseID(i,j)}" class="${active} r${i}c${j}">${ fieldArr[i][j] }</td>
             </c:forEach>
           </tr>
         </c:forEach>

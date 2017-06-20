@@ -29,3 +29,25 @@ textarea {
 	margin: auto;
 	margin-top: 50px;
 }
+
+#inputField {
+    outline: none;
+    border: none;
+    text-align: center;
+}
+
+.r0c2, .r1c2, .r2c2, .r3c2, .r4c2, .r5c2, .r6c2, .r7c2, .r8c2 {
+	border-right: 2px solid black;
+}
+
+.r0c6, .r1c6, .r2c6, .r3c6, .r4c6, .r5c6, .r6c6, .r7c6, .r8c6 {
+	border-left: 2px solid black;
+}
+
+.r2c0, .r2c1, .r2c2, .r2c3, .r2c4, .r2c5, .r2c6, .r2c7, .r2c8 {
+	border-bottom: 2px solid black;
+}
+
+.r6c0, .r6c1, .r6c2, .r6c3, .r6c4, .r6c5, .r6c6, .r6c7, .r6c8 {
+	border-top: 2px solid black;
+}

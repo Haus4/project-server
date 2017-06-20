@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	$("td[class='active']").click(tdClickHandler);
+	$("td.active").click(tdClickHandler);
 });
 
 function tdClickHandler(e) {
@@ -10,6 +10,7 @@ function tdClickHandler(e) {
 
 		var input = document.createElement('input');
 		input.id = "inputField";
+		input.maxLength = 1;
 		e.target.innerHTML = "";
 		$(this).append(input);
 
