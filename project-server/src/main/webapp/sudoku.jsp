@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Sudoku</title>
 	<link rel="stylesheet" href="css/style_sudoku.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" src ="js/jquery.js"></script>
 	<script type="text/javascript" src ="js/sudoku.js"></script>
 </head>
 <body>
