@@ -43,14 +43,14 @@ function sendResult(v, i) {
 		value: v
 	});
 	$.ajax({
-		url: "http://localhost:8080/project-server/SudokuServlet?id="+i+"&value="+v,
-		success: function(data) {
+		url: "http://localhost:8080/project-server/SudokuServlet?id=" + i + "&value=" + v,
+		success: function (data) {
 			console.log(data)
-			if(data=="true"){
-				var id = "#"+i[0]+"\\."+i[2];
-				$(id).removeClass();
+			if (data == "true") {
+				var id = "#" + i[0] + "\\." + i[2];
+				$(id).removeClass('active');
 				$(id).unbind('click');
 			}
 		}
-	})
+	});
 }
