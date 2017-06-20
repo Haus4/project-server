@@ -13,7 +13,6 @@ function tdClickHandler(e) {
 		input.maxLength = 1;
 		e.target.innerHTML = "";
 		$(this).append(input);
-
 		$('#inputField').unbind('keyup');
 		$('#inputField').keyup(inputKeyUpHandler);
 	}
@@ -38,4 +37,15 @@ function sendResult(v, i) {
 		id: i,
 		value: v
 	});
+	$.ajax({
+		url: "http://localhost:8080/project-server/SudokuServlet?id="+i+"&value="+v,
+		success: function(data) {
+			console.log(data)
+			if(data=="true"){
+				var id = "#"+i[0]+"\\."+i[2];
+				$(id).removeClass();
+				$(id).unbind('click');
+			}
+		}
+	})
 }

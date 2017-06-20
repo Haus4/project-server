@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
 
 import beans.SudokuBean;
 
@@ -37,8 +38,8 @@ public class SudokuServlet extends HttpServlet {
 		String value = request.getParameter("value");
 		if(id != null && value != null){
 			boolean isCorrect = this.checkSudokuField(id, value);
+			response.getWriter().append(String.valueOf(isCorrect));
 		}
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -49,10 +50,11 @@ public class SudokuServlet extends HttpServlet {
 	}
 	
 	private boolean checkSudokuField(String id, String value) {
-		int row = Integer.parseInt(id.split(".")[0]);
-		int col = Integer.parseInt(id.split(".")[1]);
+		String[] split = StringUtils.split(id, ".");
+		int row = Integer.parseInt(split[0]);
+		int col = Integer.parseInt(split[1]);
 		int val = Integer.parseInt(value);
-		boolean result = this.sudoku.getField(row, col) == val;
+		boolean result = this.sudoku.getResultField(row, col) == val;
 		return result;
 	}
 

@@ -32,8 +32,8 @@ public class SudokuBean {
 		updateFormattedArr();
 	}
 	
-	public int getField(int row, int col) {
-		return this.field[row][col];
+	public int getResultField(int row, int col) {
+		return this.solved[row][col];
 	}
 	
 	public void updateFormattedArr() {
