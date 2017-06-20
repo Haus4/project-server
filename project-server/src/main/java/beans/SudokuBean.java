@@ -16,11 +16,24 @@ public class SudokuBean {
 							 {0,0,2,9,8,0,0,7,0},
 							 {8,0,6,1,5,0,3,2,0},
 							 {0,9,7,6,3,0,0,4,0}};
+	private int[][] solved ={{4,3,9,5,2,6,7,1,8},
+			 				 {2,8,5,3,7,1,9,6,4},
+			 				 {7,6,1,8,4,9,5,3,2},
+			 				 {9,1,8,4,6,3,2,5,7},
+			 				 {6,2,3,7,9,5,4,8,1},
+			 				 {5,7,4,2,1,8,6,9,3},
+			 				 {3,5,2,9,8,4,1,7,6},
+			 				 {8,4,6,1,5,7,3,2,9},
+			 				 {1,9,7,6,3,2,8,4,5}};
 	private SudokuDifficulty diff = SudokuDifficulty.EASY;
 	private String diffString = "easy";
 	
 	public SudokuBean(){
 		updateFormattedArr();
+	}
+	
+	public int getResultField(int row, int col) {
+		return this.solved[row][col];
 	}
 	
 	public void updateFormattedArr() {

@@ -1,8 +1,4 @@
-html {
-  margin: 0;
-}
-
-body {
+html, body {
   font-family: 'Open Sans', sans-serif;
   margin: 0;
 }
@@ -110,6 +106,10 @@ nav>.container>ul>li>div:hover {
   text-align: center;
   padding-left: 40px;
   padding-right: 40px;
+}
+
+.schwierigkeiten span {
+	display: block;
 }
 
 a {
