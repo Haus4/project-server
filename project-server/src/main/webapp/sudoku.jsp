@@ -38,7 +38,7 @@
       </div>
     </nav>
     <div class="container">
-      <jsp:useBean id="sudokuBean" class="beans.SudokuBean"></jsp:useBean>
+	<jsp:useBean id="sudokuBean" scope="session" class="beans.SudokuBean"></jsp:useBean>
       <table>
         <c:set var="rows" value="${ sudokuBean.getRows() }"></c:set>
         <c:set var="collumns" value="${ sudokuBean.getCollumns() }"></c:set>
