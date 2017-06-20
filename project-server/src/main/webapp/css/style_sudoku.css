@@ -1,7 +1,3 @@
-body {
-	backgroud-color: red;
-}
-
 table {
     border-collapse: collapse;
     border: 2px solid black;
@@ -17,7 +13,7 @@ th, td {
     background: rgba(100,100,100,0.05);
 }
 
-.active{
+.active {
 	background: white;
 }
 
@@ -27,4 +23,9 @@ input {
 
 textarea {
 	resize: none;
+}
+
+.container > table {
+	margin: auto;
+	margin-top: 50px;
 }
