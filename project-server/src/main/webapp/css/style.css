@@ -112,6 +112,10 @@ nav>.container>ul>li>div:hover {
   padding-right: 40px;
 }
 
+.schwierigkeiten span {
+	display: block;
+}
+
 a {
   text-decoration: none;
   color: inherit;
