@@ -5,7 +5,10 @@ $(document).ready(function () {
 function tdClickHandler(e) {
 	e.stopPropagation();
 
-	if (e.target.id != 'inputField') {
+	var child = $(this).children('#inputField');
+	if (child.length > 0) {
+		child[0].focus();
+	} else if (e.target.id != 'inputField') {
 		$('#inputField').remove();
 
 		var input = document.createElement('input');
@@ -15,6 +18,8 @@ function tdClickHandler(e) {
 		$(this).append(input);
 		$('#inputField').unbind('keyup');
 		$('#inputField').keyup(inputKeyUpHandler);
+
+		input.focus();
 	}
 }
 

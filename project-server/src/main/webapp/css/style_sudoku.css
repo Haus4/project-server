@@ -30,6 +30,10 @@ textarea {
 	margin-top: 50px;
 }
 
+td.active, #inputField {
+    cursor: pointer;
+}
+
 #inputField {
     outline: none;
     border: none;
