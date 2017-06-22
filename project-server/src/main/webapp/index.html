@@ -11,23 +11,25 @@
 
 <body>
   <div class="header">
-    <h1>Sudoku</h1>
+    <a href="index.html">
+			<h1>Sudoku</h1>
+		</a>
   </div>
   <nav>
     <div class="container">
       <ul>
         <li>
-          <div>Anleitung</div>
+          <a href="anleitung.html">Anleitung</a>
         </li>
         <li>
-          <div>Kontakt</div>
+          <a href="kontakt.html">Kontakt</a>
         </li>
         <li>
           <div class="dropdown">Jetzt spielen
             <ul class="dropdown-items">
-              <li><a href="sudoku.jsp">Einfach</a></li>
-              <li><a href="sudoku.jsp">Mittel</a></li>
-              <li><a href="sudoku.jsp">Schwer</a></li>
+              <li><a href="sudoku.jsp?diff=easy">Einfach</a></li>
+              <li><a href="sudoku.jsp?diff=medium">Mittel</a></li>
+              <li><a href="sudoku.jsp?diff=hard">Schwer</a></li>
             </ul>
           </div>
         </li>
@@ -43,17 +45,17 @@
     <div class="schwierigkeiten">
       <ul>
         <li>
-          <a href="sudoku.jsp">
+          <a href="sudoku.jsp?diff=easy">
             <span>Einfach</span><img border="0" height="200" width="200" alt="Easy" src="img/sudoku.png" width="100">
           </a>
         </li>
         <li>
-          <a href="sudoku.jsp">
+          <a href="sudoku.jsp?diff=medium">
             <span>Mittel</span><img border="0" height="200" width="200" alt="Middle" src="img/sudoku.png">
           </a>
         </li>
         <li>
-          <a href="sudoku.jsp">
+          <a href="sudoku.jsp?diff=hard">
             <span>Schwer</span><img border="0" height="200" width="200" alt="Hard" src="img/sudoku.png">
           </a>
         </li>
@@ -65,8 +67,7 @@
 <footer>
   <div class="container">
     <ul>
-      <li><a href="#">Impressum</a> </li>
-      <li><a href="#">Kontakt</a></li>
+      <li><a href="impressum.html">Impressum</a></li>
     </ul>
   </div>
 </footer>

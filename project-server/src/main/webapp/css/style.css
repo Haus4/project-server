@@ -12,7 +12,7 @@ html, body {
   width: 100%;
 }
 
-.header>h1 {
+.header>a>h1 {
   font-family: 'Segoe UI Light';
   font-weight: 100;
   font-size: 75px;
@@ -76,7 +76,7 @@ nav>.container>ul>li {
   opacity: 1;
 }
 
-nav>.container>ul>li>div {
+nav>.container>ul>li>div, nav>.container>ul>li>a {
   color: white;
   display: inline-block;
   text-decoration: none;
@@ -85,7 +85,7 @@ nav>.container>ul>li>div {
   transition: all 0.1s linear;
 }
 
-nav>.container>ul>li>div:hover {
+nav>.container>ul>li>div:hover, nav>.container>ul>li>a:hover {
   background-color: #e6e6e6;
   color: #262626;
 }
