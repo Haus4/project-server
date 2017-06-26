@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 
 import beans.SudokuBean;
+import db.SudokuDB;
 
 /**
  * Servlet implementation class SudokuServlet
@@ -17,38 +18,50 @@ import beans.SudokuBean;
 public class SudokuServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private SudokuBean sudoku;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public SudokuServlet() {
-        super();
-    }
-    
-    public void init() {
-    	this.log("starting up servlet");
-    	this.sudoku = new SudokuBean();
-    }
+	private SudokuDB db;
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public SudokuServlet() {
+		super();
+	}
+
+	public void init() {
+		this.log("starting up servlet");
+		this.sudoku = new SudokuBean();
+		this.db = new SudokuDB(this.getServletContext().getRealPath("database.db"));
+	}
+
+	@Override
+	public void destroy() {
+		this.db.close();
+		super.destroy();
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String id = request.getParameter("id");
 		String value = request.getParameter("value");
-		if(id != null && value != null){
+		if (id != null && value != null) {
 			boolean isCorrect = this.checkSudokuField(id, value);
 			response.getWriter().append(String.valueOf(isCorrect));
 		}
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
-	
+
 	private boolean checkSudokuField(String id, String value) {
 		String[] split = StringUtils.split(id, ".");
 		int row = Integer.parseInt(split[0]);
