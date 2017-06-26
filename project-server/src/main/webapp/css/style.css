@@ -12,7 +12,7 @@ html, body {
   width: 100%;
 }
 
-.header>a>h1 {
+.header>h1 {
   font-family: 'Segoe UI Light';
   font-weight: 100;
   font-size: 75px;
