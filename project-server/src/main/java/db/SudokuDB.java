@@ -12,9 +12,8 @@ public class SudokuDB {
 			Class.forName("org.sqlite.JDBC");
 			this.connection = DriverManager.getConnection("jdbc:sqlite:" + file);
 			this.statement = this.connection.createStatement();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+			System.out.println("Database opened: " + file);
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

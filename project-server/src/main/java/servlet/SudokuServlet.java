@@ -30,7 +30,7 @@ public class SudokuServlet extends HttpServlet {
 	public void init() {
 		this.log("starting up servlet");
 		this.sudoku = new SudokuBean();
-		this.db = new SudokuDB(this.getServletContext().getRealPath("database.db"));
+		this.db = new SudokuDB(this.getServletContext().getRealPath("/db/database.db"));
 	}
 
 	@Override
