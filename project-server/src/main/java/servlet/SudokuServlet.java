@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.Random;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import beans.SudokuBean;
 import db.SudokuDB;
+import enums.SudokuDifficulty;
 
 /**
  * Servlet implementation class SudokuServlet
@@ -17,6 +20,7 @@ import db.SudokuDB;
 @WebServlet("/SudokuServlet")
 public class SudokuServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Random rand;
 	private SudokuBean sudoku;
 	private SudokuDB db;
 
@@ -28,10 +32,11 @@ public class SudokuServlet extends HttpServlet {
 	}
 
 	public void init() {
-		this.log("starting up servlet");
+		this.rand = new Random();
+		this.db = new SudokuDB(this.getServletContext().getRealPath("/db/database.db"));
+		this.log("starting up servlet -- connecting to db ...");
 		//TODO: load Sudoku from Bean here
 		this.sudoku = new SudokuBean();
-		this.db = new SudokuDB(this.getServletContext().getRealPath("/db/database.db"));
 	}
 
 	@Override
@@ -79,6 +84,10 @@ public class SudokuServlet extends HttpServlet {
 		}
 		boolean result = this.sudoku.getResultField(row, col) == val;
 		return result;
+	}
+	
+	private void loadSudokuFromDB(SudokuDifficulty diff) {
+		//TODO: get random sudoku for diff
 	}
 
 }
