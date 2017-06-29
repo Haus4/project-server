@@ -29,6 +29,7 @@ public class SudokuServlet extends HttpServlet {
 
 	public void init() {
 		this.log("starting up servlet");
+		//TODO: load Sudoku from Bean here
 		this.sudoku = new SudokuBean();
 		this.db = new SudokuDB(this.getServletContext().getRealPath("/db/database.db"));
 	}
@@ -67,6 +68,15 @@ public class SudokuServlet extends HttpServlet {
 		int row = Integer.parseInt(split[0]);
 		int col = Integer.parseInt(split[1]);
 		int val = Integer.parseInt(value);
+		if (row < 0 || row >= 9){
+			row = 0;
+		}
+		if (col < 0 || col >= 9){
+			col = 0;
+		}
+		if (val < 0 || val >= 9){
+			val = 0;
+		}
 		boolean result = this.sudoku.getResultField(row, col) == val;
 		return result;
 	}
