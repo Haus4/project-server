@@ -45,6 +45,7 @@ public class SudokuBean {
 	}
 	
 	public String[][] getFormattedArr() {
+		updateFormattedArr();
 		return formattedArr;
 	}
 	public void setFormattedArr(String[][] formattedArr) {
@@ -55,6 +56,12 @@ public class SudokuBean {
 	}
 	public void setField(int[][] field) {
 		this.field = field;
+	}
+	public int[][] getSolved() {
+		return solved;
+	}
+	public void setSolved(int[][] solved) {
+		this.solved = solved;
 	}
 	public SudokuDifficulty getDiff() {
 		return diff;

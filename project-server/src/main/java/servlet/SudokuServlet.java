@@ -1,6 +1,11 @@
 package servlet;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Random;
 
 import javax.servlet.ServletException;
@@ -17,7 +22,7 @@ import enums.SudokuDifficulty;
 /**
  * Servlet implementation class SudokuServlet
  */
-@WebServlet("/SudokuServlet")
+@WebServlet("/sudoku")
 public class SudokuServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Random rand;
@@ -35,7 +40,6 @@ public class SudokuServlet extends HttpServlet {
 		this.rand = new Random();
 		this.db = new SudokuDB(this.getServletContext().getRealPath("/db/database.db"));
 		this.log("starting up servlet -- connecting to db ...");
-		//TODO: load Sudoku from Bean here
 		this.sudoku = new SudokuBean();
 	}
 
@@ -51,6 +55,16 @@ public class SudokuServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String diff = request.getParameter("diff");
+		if(diff != null) {
+			diff = diff.toUpperCase();
+			this.sudoku.updateFormattedArr();
+			this.loadSudokuFromDB(SudokuDifficulty.valueOf(diff));
+			request.getSession().setAttribute("sudokuBean", sudoku);
+			request.getServletContext()
+			.getRequestDispatcher("/sudoku.jsp")
+			.forward(request, response);
+		}
 		String id = request.getParameter("id");
 		String value = request.getParameter("value");
 		if (id != null && value != null) {
@@ -87,7 +101,30 @@ public class SudokuServlet extends HttpServlet {
 	}
 	
 	private void loadSudokuFromDB(SudokuDifficulty diff) {
-		//TODO: get random sudoku for diff
+		try {
+			int count = this.db.executeQuery("SELECT COUNT(ID) FROM SUDOKU WHERE DIFF =" + diff.ordinal()).getInt(1);
+			int index = this.rand.nextInt(++count);
+			ResultSet rs = this.db.executeQuery("SELECT * FROM SUDOKU WHERE DIFF =" + diff.ordinal()); //+ " AND ID = " + index);
+			int[][] field = byteToIntArr(rs.getBytes("field"));
+			int[][] solved = byteToIntArr(rs.getBytes("solved"));
+			this.sudoku.setField(field);
+			this.sudoku.setSolved(solved);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private int[][] byteToIntArr(byte[] b) {
+		int[][] intArr = new int[b.length/36][b.length/36];
+		IntBuffer intBuf = ByteBuffer.wrap(b).order(ByteOrder.BIG_ENDIAN).asIntBuffer();
+		int[] arr = new int[intBuf.remaining()];
+		intBuf.get(arr);
+		for(int i=0; i<intArr.length; i++) {
+			for(int j=0; j<intArr[i].length; j++){
+				intArr[i][j] = arr[i*intArr[i].length + j];
+			}
+		}
+		return intArr;
 	}
 
 }

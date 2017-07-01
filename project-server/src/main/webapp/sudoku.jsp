@@ -30,9 +30,9 @@
           <li>
             <div class="dropdown">Jetzt spielen
               <ul class="dropdown-items">
-                <li><a href="sudoku.jsp?diff=easy">Einfach</a></li>
-                <li><a href="sudoku.jsp?diff=medium">Mittel</a></li>
-                <li><a href="sudoku.jsp?diff=hard">Schwer</a></li>
+                <li><a href="sudoku?diff=easy">Einfach</a></li>
+                <li><a href="sudoku?diff=medium">Mittel</a></li>
+                <li><a href="sudoku?diff=hard">Schwer</a></li>
               </ul>
             </div>
           </li>
