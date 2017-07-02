@@ -19,6 +19,8 @@ public class HighscoreBean {
 		boolean saveHighscore = false;
 		if (correctField) fieldsCorrect++;
 		if (fieldsCorrect >= fieldsToSolve) {
+			//TODO: remove this line..
+			System.out.println(username + " finished sudoku " + sudokuID + " with "+ fieldsCorrect +"/"+fieldsToSolve+ " correct fields");
 			saveHighscore = true;
 			fieldsCorrect = 0;
 			fieldsToSolve = 0;

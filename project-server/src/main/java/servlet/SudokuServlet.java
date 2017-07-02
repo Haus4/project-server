@@ -70,9 +70,10 @@ public class SudokuServlet extends HttpServlet {
 			request.getServletContext()
 			.getRequestDispatcher("/sudoku.jsp")
 			.forward(request, response);
+			return;
 		}
 		String username = request.getParameter("username");
-		if(username.isEmpty() && diff.isEmpty()){
+		if(username != null && username.isEmpty() && diff == null){
 			username = "guest"+UUID.randomUUID().toString();
 			request.setAttribute("username", username);
 			tempHighscores.add(new HighscoreBean(username, sudoku.getSudokuId(), sudoku.getEmptyFields()));

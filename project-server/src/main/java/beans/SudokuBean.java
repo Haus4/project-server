@@ -8,7 +8,7 @@ public class SudokuBean {
 	private final int collumns = 9;
 
 	private int sudokuId = 1;
-	private int emptyFields = 35;
+	private int emptyFields = 36;
 	
 	private String[][] formattedArr = new String[9][9];
 	private int[][] field = {{0,0,9,0,2,0,0,1,0},

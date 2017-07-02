@@ -61,7 +61,8 @@ public class DBHelper {
 					+ "id integer primary key autoincrement not null unique,"
 					+ " diff integer not null,"
 					+ " solved blob,"
-					+ " field blob)").execute();
+					+ " field blob,"
+					+ " open integer not null)").execute();
 			this.db.prepareStatement("create table highscore("
 					+ "id integer not null primary key autoincrement unique,"
 					+ " sudokuid integer not null,"
