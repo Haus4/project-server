@@ -4,9 +4,13 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 
+import beans.HighscoreBean;
 import beans.SudokuBean;
 import db.SudokuDB;
 import enums.SudokuDifficulty;
@@ -28,6 +33,7 @@ public class SudokuServlet extends HttpServlet {
 	private Random rand;
 	private SudokuBean sudoku;
 	private SudokuDB db;
+	private List<HighscoreBean> tempHighscores = new ArrayList<HighscoreBean>();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -65,11 +71,20 @@ public class SudokuServlet extends HttpServlet {
 			.getRequestDispatcher("/sudoku.jsp")
 			.forward(request, response);
 		}
+		String username = request.getParameter("username");
+		if(username.isEmpty() && diff.isEmpty()){
+			username = "guest"+UUID.randomUUID().toString();
+			request.setAttribute("username", username);
+			tempHighscores.add(new HighscoreBean(username, sudoku.getSudokuId(), sudoku.getEmptyFields()));
+			createHighscoreRow(sudoku.getSudokuId(), username);
+		}
 		String id = request.getParameter("id");
 		String value = request.getParameter("value");
 		if (id != null && value != null) {
-			boolean isCorrect = this.checkSudokuField(id, value);
-			response.getWriter().append(String.valueOf(isCorrect));
+			boolean isCorrect = this.checkSudokuField(id, value, username);
+			response.setContentType("application/json");
+			response.getWriter().append("{ \"username\" : \""+ username+"\", \"check\" : \"" + String.valueOf(isCorrect)+"\" }");
+			response.getWriter().flush();
 		}
 	}
 
@@ -82,7 +97,7 @@ public class SudokuServlet extends HttpServlet {
 		doGet(request, response);
 	}
 
-	private boolean checkSudokuField(String id, String value) {
+	private boolean checkSudokuField(String id, String value, String username) {
 		String[] split = StringUtils.split(id, ".");
 		int row = Integer.parseInt(split[0]);
 		int col = Integer.parseInt(split[1]);
@@ -93,10 +108,13 @@ public class SudokuServlet extends HttpServlet {
 		if (col < 0 || col >= 9){
 			col = 0;
 		}
-		if (val < 0 || val >= 9){
+		if (val < 0 || val > 9){
 			val = 0;
 		}
 		boolean result = this.sudoku.getResultField(row, col) == val;
+		int index = getHighscoreIndex(username);
+		boolean saveHighscore = tempHighscores.get(index).checkHighscore(result);
+		if(saveHighscore) insertHighscore(100, username);
 		return result;
 	}
 	
@@ -104,11 +122,19 @@ public class SudokuServlet extends HttpServlet {
 		try {
 			int count = this.db.executeQuery("SELECT COUNT(ID) FROM SUDOKU WHERE DIFF =" + diff.ordinal()).getInt(1);
 			int index = this.rand.nextInt(++count);
-			ResultSet rs = this.db.executeQuery("SELECT * FROM SUDOKU WHERE DIFF =" + diff.ordinal()); //+ " AND ID = " + index);
+			ResultSet rs = this.db.executeQuery("SELECT * FROM SUDOKU WHERE DIFF =" + diff.ordinal());
+			while(index > 1){
+				rs.next();
+				index--;
+			}
 			int[][] field = byteToIntArr(rs.getBytes("field"));
 			int[][] solved = byteToIntArr(rs.getBytes("solved"));
-			this.sudoku.setField(field);
-			this.sudoku.setSolved(solved);
+			int id = rs.getInt("id");
+			int open = rs.getInt("open");
+			sudoku.setSudokuId(id);
+			sudoku.setField(field);
+			sudoku.setSolved(solved);
+			sudoku.setEmptyFields(open);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -125,6 +151,37 @@ public class SudokuServlet extends HttpServlet {
 			}
 		}
 		return intArr;
+	}
+	
+	private void createHighscoreRow(int sudokuId, String username) {
+		try {
+			PreparedStatement ps = this.db.prepareStatement("insert into highscore(sudokuid,username,points) values(?,?,?)");
+			ps.setInt(1, sudokuId);
+			ps.setString(2, username);
+			ps.setInt(3, 0);
+			ps.execute();
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	private void insertHighscore(int points, String username) {
+		try {
+			PreparedStatement ps = this.db.prepareStatement("update highscore set points = ? where username = ?");
+			ps.setInt(1, points);
+			ps.setString(2, username);
+			ps.execute();
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	private int getHighscoreIndex(String username) {
+		int index = 0;
+		for(HighscoreBean hsb : tempHighscores){
+			if(hsb.getUsername() == username) index = tempHighscores.indexOf(hsb);
+		}
+		return index;
 	}
 
 }

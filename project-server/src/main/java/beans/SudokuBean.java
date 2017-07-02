@@ -6,6 +6,10 @@ public class SudokuBean {
 	
 	private final int rows = 9;
 	private final int collumns = 9;
+
+	private int sudokuId = 1;
+	private int emptyFields = 35;
+	
 	private String[][] formattedArr = new String[9][9];
 	private int[][] field = {{0,0,9,0,2,0,0,1,0},
 							 {2,0,5,3,0,0,0,0,4},
@@ -86,6 +90,22 @@ public class SudokuBean {
 
 	public int getCollumns() {
 		return collumns;
+	}
+
+	public int getSudokuId() {
+		return sudokuId;
+	}
+
+	public void setSudokuId(int sudokuId) {
+		this.sudokuId = sudokuId;
+	}
+
+	public int getEmptyFields() {
+		return emptyFields;
+	}
+
+	public void setEmptyFields(int emptyFields) {
+		this.emptyFields = emptyFields;
 	}
 
 }

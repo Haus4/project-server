@@ -65,7 +65,8 @@ public class DBHelper {
 			this.db.prepareStatement("create table highscore("
 					+ "id integer not null primary key autoincrement unique,"
 					+ " sudokuid integer not null,"
-					+ " username string)").execute();
+					+ " username string,"
+					+ " points integer not null)").execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
