@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+  <html>
 
   <head>
     <meta charset="UTF-8">
@@ -14,23 +14,25 @@
 
   <body>
     <div class="header">
-      <h1>Sudoku</h1>
+		<h1>
+			<a href="index.html">Sudoku</a>
+		</h1>
     </div>
     <nav>
       <div class="container">
         <ul>
           <li>
-            <div>Anleitung</div>
+            <a href="anleitung.html">Anleitung</a>
           </li>
           <li>
-            <div>Kontakt</div>
+            <a href="kontakt.html">Kontakt</a>
           </li>
           <li>
             <div class="dropdown">Jetzt spielen
               <ul class="dropdown-items">
-                <li><a href="#">Einfach</a></li>
-                <li><a href="#">Mittel</a></li>
-                <li><a href="#">Schwer</a></li>
+                <li><a href="sudoku?diff=easy">Einfach</a></li>
+                <li><a href="sudoku?diff=medium">Mittel</a></li>
+                <li><a href="sudoku?diff=hard">Schwer</a></li>
               </ul>
             </div>
           </li>
@@ -38,7 +40,7 @@
       </div>
     </nav>
     <div class="container">
-	<jsp:useBean id="sudokuBean" scope="session" class="beans.SudokuBean"></jsp:useBean>
+      <jsp:useBean id="sudokuBean" scope="session" class="beans.SudokuBean"></jsp:useBean>
       <table>
         <c:set var="rows" value="${ sudokuBean.getRows() }"></c:set>
         <c:set var="collumns" value="${ sudokuBean.getCollumns() }"></c:set>
@@ -61,10 +63,9 @@
   <footer>
     <div class="container">
       <ul>
-        <li><a href="#">Impressum</a> </li>
-        <li><a href="#">Kontakt</a></li>
+        <li><a href="impressum.html">Impressum</a></li>
       </ul>
     </div>
   </footer>
 
-</html>
+  </html>

@@ -9,4 +9,25 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+    
+<security-constraint>
+    <web-resource-collection>
+        <web-resource-name>HTTP-Protected-Resource-1</web-resource-name>
+        <description>Description here</description>
+        <url-pattern>/project-server/db/*</url-pattern>
+        <http-method>GET</http-method>
+        <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+        <role-name>NOSOUPFORYOU</role-name>
+    </auth-constraint>
+</security-constraint>
+
+<login-config>
+    <auth-method>DEFAULT</auth-method>
+    <realm-name>NOACCESSFORANYONE</realm-name>
+</login-config>
+<security-role>
+    <role-name>NOSOUPFORYOU</role-name>
+</security-role>
 </web-app>

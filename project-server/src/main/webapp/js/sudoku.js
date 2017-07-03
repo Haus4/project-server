@@ -1,3 +1,4 @@
+var username = "";
 $(document).ready(function () {
 	$("td.active").click(tdClickHandler);
 });
@@ -43,14 +44,15 @@ function sendResult(v, i) {
 		value: v
 	});
 	$.ajax({
-		url: "http://localhost:8080/project-server/SudokuServlet?id=" + i + "&value=" + v,
+		url: "http://localhost:8080/project-server/sudoku?id=" + i + "&value=" + v+ "&username=" + username,
 		success: function (data) {
-			console.log(data)
-			if (data == "true") {
+			console.log(data);
+			if (data.check == "true") {
 				var id = "#" + i[0] + "\\." + i[2];
 				$(id).removeClass('active');
 				$(id).unbind('click');
 			}
+			username = data.username;
 		}
 	});
 }
