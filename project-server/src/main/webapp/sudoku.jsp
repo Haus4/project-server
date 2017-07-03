@@ -58,6 +58,7 @@
         </c:forEach>
       </table>
     </div>
+    <input type="hidden" id="sudokuId" value="${ sudokuBean.getSudokuId() }"/>
   </body>
 
   <footer>

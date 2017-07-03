@@ -1,5 +1,7 @@
 var username = "";
+var sudokuId = 0;
 $(document).ready(function () {
+	sudokuId = $('#sudokuId').val();
 	$("td.active").click(tdClickHandler);
 });
 
@@ -39,14 +41,10 @@ function inputKeyUpHandler(e) {
 }
 
 function sendResult(v, i) {
-	console.log({
-		id: i,
-		value: v
-	});
 	$.ajax({
-		url: "http://localhost:8080/project-server/sudoku?id=" + i + "&value=" + v+ "&username=" + username,
+		url: "http://localhost:8080/project-server/sudoku?id=" + i + "&value=" + v
+		+ "&username=" + username + "&sudokuId=" + sudokuId,
 		success: function (data) {
-			console.log(data);
 			var diff = window.location.href.split("diff=")[1].toLowerCase();
 			if (data.check == "true" && (diff == "easy" || diff == "medium")) {
 				var id = "#" + i[0] + "\\." + i[2];
