@@ -83,12 +83,22 @@ public class SudokuServlet extends HttpServlet {
 			.forward(request, response);
 			return;
 		}
+		String sudokuId = request.getParameter("sudokuId");
 		String username = request.getParameter("username");
 		if(username != null && username.isEmpty() && diff == null){
+			int currentId = Integer.parseInt(sudokuId);
+			if(sudoku.getSudokuId() != currentId){
+				loadSudokuForId(currentId);
+			}
 			username = "guest"+UUID.randomUUID().toString();
 			request.setAttribute("username", username);
-			tempHighscores.add(new HighscoreBean(username, sudoku.getSudokuId(), sudoku.getEmptyFields()));
+			tempHighscores.add(new HighscoreBean(username, sudoku));
 			createHighscoreRow(sudoku.getSudokuId(), username);
+		}
+		if(sudokuId != null && username != null && !username.isEmpty()){
+			sudoku = getSudokuForId(Integer.parseInt(sudokuId));
+		} else {
+			response.sendError(500, "No sudokuID given ...");
 		}
 		String id = request.getParameter("id");
 		String value = request.getParameter("value");
@@ -206,8 +216,34 @@ public class SudokuServlet extends HttpServlet {
 		return index;
 	}
 	
-	private String queryHighscoresFromDB(String query){
+	private String queryHighscoresFromDB(String query) {
 		return "";
+	}
+	
+	private SudokuBean getSudokuForId(int sudokuId) {
+		SudokuBean sb = null;
+		for(HighscoreBean hsb : tempHighscores){
+			if(hsb.getSudokuID() == sudokuId) sb = hsb.getSudokuBean();
+		}
+		return sb;
+	}
+	
+	private void loadSudokuForId(int sudokuId){
+		try {
+			PreparedStatement ps = this.db.prepareStatement("SELECT * FROM SUDOKU WHERE ID = ?");	
+			ps.setInt(1, sudokuId);
+			ResultSet rs = ps.executeQuery();
+			int[][] field = byteToIntArr(rs.getBytes("field"));
+			int[][] solved = byteToIntArr(rs.getBytes("solved"));
+			int id = rs.getInt("id");
+			int open = rs.getInt("open");
+			sudoku.setSudokuId(id);
+			sudoku.setField(field);
+			sudoku.setSolved(solved);
+			sudoku.setEmptyFields(open);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

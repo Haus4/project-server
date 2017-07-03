@@ -4,15 +4,17 @@ public class HighscoreBean {
 	
 	private String username;
 	private int sudokuID;
+	private SudokuBean sudokuBean;
 	
 	//temporary score
 	private int fieldsCorrect = 0;
 	private int fieldsToSolve;
 	
-	public HighscoreBean(String username, int sudokuId, int fieldsToSolve) {
+	public HighscoreBean(String username, SudokuBean sudokuBean) {
 		this.setUsername(username);
-		this.setSudokuID(sudokuId);
-		this.fieldsToSolve = fieldsToSolve;
+		this.setSudokuBean(sudokuBean);
+		this.setSudokuID(sudokuBean.getSudokuId());
+		this.fieldsToSolve = sudokuBean.getEmptyFields();
 	}
 	
 	public boolean checkHighscore(boolean correctField){
@@ -42,6 +44,14 @@ public class HighscoreBean {
 
 	public void setSudokuID(int sudokuID) {
 		this.sudokuID = sudokuID;
+	}
+
+	public SudokuBean getSudokuBean() {
+		return sudokuBean;
+	}
+
+	public void setSudokuBean(SudokuBean sudokuBean) {
+		this.sudokuBean = sudokuBean;
 	}
 
 }
