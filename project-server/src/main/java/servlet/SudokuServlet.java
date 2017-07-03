@@ -58,6 +58,17 @@ public class SudokuServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
+	 *      
+	 *      3 Possible Requests (worked through in this order):
+	 *      	- Reload Sudoku & return : diff != null
+	 *      		forwards to jsp
+	 *      
+	 *      	- Check Field & return : id != null && value != null
+	 *      	(+ username is empty: New Username)
+	 *      		returns json with username + check
+	 *      	
+	 *      	- Get Highscore & return : hsQuery != null
+	 *      		returns json with highscore/(s) (username + points)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -86,6 +97,16 @@ public class SudokuServlet extends HttpServlet {
 			response.setContentType("application/json");
 			response.getWriter().append("{ \"username\" : \""+ username+"\", \"check\" : \"" + String.valueOf(isCorrect)+"\" }");
 			response.getWriter().flush();
+			return;
+		}
+		boolean getHighscore = request.getParameter("getHS") != null ? true : false;
+		if (getHighscore) {
+			String query = request.getParameter("getHS");
+			String json = queryHighscoresFromDB(query);
+			response.setContentType("application/json");
+			response.getWriter().append(json);
+			response.getWriter().flush();
+			return;
 		}
 	}
 
@@ -183,6 +204,10 @@ public class SudokuServlet extends HttpServlet {
 			if(hsb.getUsername() == username) index = tempHighscores.indexOf(hsb);
 		}
 		return index;
+	}
+	
+	private String queryHighscoresFromDB(String query){
+		return "";
 	}
 
 }
