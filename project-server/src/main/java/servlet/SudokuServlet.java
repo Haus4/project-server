@@ -112,7 +112,7 @@ public class SudokuServlet extends HttpServlet {
 		boolean getHighscore = request.getParameter("getHS") != null ? true : false;
 		if (getHighscore) {
 			String query = request.getParameter("getHS");
-			String json = queryHighscoresFromDB(query);
+			String json = queryHighscoresFromDB(query.toLowerCase(), username);
 			response.setContentType("application/json");
 			response.getWriter().append(json);
 			response.getWriter().flush();
@@ -216,8 +216,32 @@ public class SudokuServlet extends HttpServlet {
 		return index;
 	}
 	
-	private String queryHighscoresFromDB(String query) {
-		return "";
+	private String queryHighscoresFromDB(String query, String username) {
+		String json = "";
+		try {
+			if (query.equalsIgnoreCase("player")) {
+				PreparedStatement ps = this.db.prepareStatement("SELECT * FROM HIGHSCORE WHERE USERNAME = ?");
+				ps.setString(1, username);
+				ResultSet rs = ps.executeQuery();
+				json = "{ \"username\" : \""+ username + "\", \"points\" : " + rs.getInt("points") + " }";
+			} else if (query.equalsIgnoreCase("sudoku")) {
+				PreparedStatement ps = this.db.prepareStatement("SELECT * FROM HIGHSCORE WHERE SUDOKUID = ? ORDER BY points DESC");
+				ps.setInt(1, sudoku.getSudokuId());
+				ResultSet rs = ps.executeQuery();
+				json = "{\n\t\"scores\" : [\n\t\t{ \"username\" : \""+ rs.getString("username") + "\", \"points\" : " + rs.getInt("points") + " },\n";
+				for(int i=0; i<4; i++){
+					if(rs.next()){
+						json += "\t\t{ \"username\" : \""+ rs.getString("username") + "\", \"points\" : " + rs.getInt("points") + " },\n";
+					} else {
+						break;
+					}
+				}
+				json = json.substring(0, json.length() - 2) + "\n\t]\n}";
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return json;
 	}
 	
 	private SudokuBean getSudokuForId(int sudokuId) {
