@@ -59,16 +59,9 @@ public class SudokuServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 *      
-	 *      3 Possible Requests (worked through in this order):
+	 *      Possible Request:
 	 *      	- Reload Sudoku & return : diff != null
 	 *      		forwards to jsp
-	 *      
-	 *      	- Check Field & return : id != null && value != null
-	 *      	(+ username is empty: New Username)
-	 *      		returns json with username + check
-	 *      	
-	 *      	- Get Highscore & return : hsQuery != null
-	 *      		returns json with highscore/(s) (username + points)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -81,11 +74,30 @@ public class SudokuServlet extends HttpServlet {
 			request.getServletContext()
 			.getRequestDispatcher("/sudoku.jsp")
 			.forward(request, response);
-			return;
 		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 *      
+	 *      Possible Requests (worked through in this order):
+	 *      
+	 *      ------- SUDOKU IS RELOADED BY ID (THROUGH DB OR TEMPHS) --------
+	 *      
+	 *      	- Check Field & return : id != null && value != null
+	 *      	(+ username is empty: New Username)
+	 *      		returns json with username + check
+	 *      	
+	 *      	- Get Highscore & return : hsQuery != null
+	 *      		returns json with highscore/(s) (username + points)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		String sudokuId = request.getParameter("sudokuId");
 		String username = request.getParameter("username");
-		if(username != null && username.isEmpty() && diff == null){
+		if(username != null && username.isEmpty()){
 			int currentId = Integer.parseInt(sudokuId);
 			if(sudoku.getSudokuId() != currentId){
 				loadSudokuForId(currentId);
@@ -96,7 +108,8 @@ public class SudokuServlet extends HttpServlet {
 			createHighscoreRow(sudoku.getSudokuId(), username);
 		}
 		if(sudokuId != null && username != null && !username.isEmpty()){
-			sudoku = getSudokuForId(Integer.parseInt(sudokuId));
+			SudokuBean newSudoku = getSudokuForId(Integer.parseInt(sudokuId));
+			sudoku = newSudoku != null ? newSudoku : sudoku;
 		} else {
 			response.sendError(500, "No sudokuID given ...");
 		}
@@ -118,15 +131,6 @@ public class SudokuServlet extends HttpServlet {
 			response.getWriter().flush();
 			return;
 		}
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet(request, response);
 	}
 
 	private boolean checkSudokuField(String id, String value, String username) {
@@ -230,7 +234,8 @@ public class SudokuServlet extends HttpServlet {
 				ResultSet rs = ps.executeQuery();
 				json = "{\n\t\"scores\" : [\n\t\t{ \"username\" : \""+ rs.getString("username") + "\", \"points\" : " + rs.getInt("points") + " },\n";
 				for(int i=0; i<4; i++){
-					if(rs.next()){
+					ResultSet old = rs;
+					if(rs.next() && old != rs){
 						json += "\t\t{ \"username\" : \""+ rs.getString("username") + "\", \"points\" : " + rs.getInt("points") + " },\n";
 					} else {
 						break;
