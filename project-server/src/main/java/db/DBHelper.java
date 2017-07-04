@@ -103,7 +103,7 @@ public class DBHelper {
 			ps.setBytes(2, bSolved);
 			ps.setBytes(3, bField);
 			ps.setInt(4, open);
-			ps.execute();
+			db.execute(ps);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

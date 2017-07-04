@@ -211,7 +211,7 @@ public class SudokuServlet extends HttpServlet {
 			ps.setInt(1, sudokuId);
 			ps.setString(2, username);
 			ps.setInt(3, 0);
-			ps.execute();
+			db.execute(ps);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -222,7 +222,7 @@ public class SudokuServlet extends HttpServlet {
 			PreparedStatement ps = this.db.prepareStatement("update highscore set points = ? where username = ?");
 			ps.setInt(1, points);
 			ps.setString(2, username);
-			ps.execute();
+			db.execute(ps);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
