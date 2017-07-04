@@ -42,7 +42,7 @@ function inputKeyUpHandler(e) {
 
 function sendResult(v, i) {
 	$.ajax({
-		url: "http://localhost:8080/project-server/sudoku?id=" + i + "&value=" + v
+		url: window.location.href.split("/project-server")[0]+"/project-server/sudoku?id=" + i + "&value=" + v
 		+ "&username=" + username + "&sudokuId=" + sudokuId,
 		type: 'POST',
 		success: function (data) {

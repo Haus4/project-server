@@ -1,7 +1,6 @@
 package db;
 
-import java.util.*;
-import java.text.*;
+import java.util.Random;
 
 /**
  * The SudokuGenerator class creates a random standard (9x9) Sudoku board
@@ -137,7 +136,12 @@ public class SudokuGenerator {
 		double remainingSquares = 81;
 		double remainingHoles = (double) holesToMake;
 		
-		sboard = Arrays.copyOf(board, board.length);
+		sboard = new int[9][9];
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				sboard[i][j]=board[i][j];
+			}
+		}
 
 		for (int i = 0; i < 9; i++)
 			for (int j = 0; j < 9; j++) {
@@ -167,7 +171,7 @@ public class SudokuGenerator {
 	}
 	
 	public int[][] getBoard() {
-		return this.sboard;
+		return this.board;
 	}
 
 	int[][] board;
