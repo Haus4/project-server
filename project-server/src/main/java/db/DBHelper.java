@@ -3,12 +3,8 @@ package db;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.sql.Blob;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.sql.rowset.serial.SerialBlob;
 
 /***
  * Helper class used to init Database and insert Sudokus <br/> <br/>
@@ -39,12 +35,14 @@ public class DBHelper {
 			 				 {4,7,5,8,2,6,9,1,3},
 			 				 {8,6,3,9,7,1,4,2,5}};
 	
+	private int emptyFields = 36;
+	
 	private SudokuDB db;
 	
 	public DBHelper(){
 		this.db = new SudokuDB("C:\\Projects\\Haus4\\projects\\project-server\\project-server\\src\\main\\webapp\\db\\database.db");
 		//createTables();
-		insertSudoku(2, this.solved, this.field);
+		insertSudoku(2, solved, field, emptyFields);
 		this.db.close();
 	}
 	
@@ -73,14 +71,15 @@ public class DBHelper {
 		}
 	}
 	
-	private void insertSudoku(int diff, int[][] solved, int[][] field){
+	private void insertSudoku(int diff, int[][] solved, int[][] field, int open){
 		byte[] bSolved = intArrToBlob(solved);
 		byte[] bField = intArrToBlob(field);
 		try {
-			PreparedStatement ps = this.db.prepareStatement("insert into sudoku(diff,solved,field) values(?,?,?)");
+			PreparedStatement ps = this.db.prepareStatement("insert into sudoku(diff,solved,field,open) values(?,?,?,?)");
 			ps.setInt(1, diff);
 			ps.setBytes(2, bSolved);
 			ps.setBytes(3, bField);
+			ps.setInt(4, open);
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
