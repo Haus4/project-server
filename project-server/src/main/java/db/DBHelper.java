@@ -47,7 +47,8 @@ public class DBHelper {
 					+ " diff integer not null," + " solved blob," + " field blob," + " open integer not null)")
 					.execute();
 			this.db.prepareStatement("create table highscore(" + "id integer not null primary key autoincrement unique,"
-					+ " sudokuid integer not null," + " username string," + " points integer not null)").execute();
+					+ " sudokuid integer not null," + " username string," + " points integer not null,"
+					+ " timestamp string)").execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

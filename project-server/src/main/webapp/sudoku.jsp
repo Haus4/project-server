@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="shortcut icon" href="img/favicon.ico" />
 <link href="https://fonts.googleapis.com/css?family=Open+Sans"
 	rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
@@ -55,6 +56,10 @@
 				</tr>
 			</c:forEach>
 		</table>
+	</div>
+	<div class="countdown">
+		<span>Timer:</span>
+		<span id="timer"></span>
 	</div>
 	<input type="hidden" id="sudokuId"
 		value="${ sudokuBean.getSudokuId() }" />

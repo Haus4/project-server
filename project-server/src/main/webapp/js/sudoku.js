@@ -1,8 +1,10 @@
 var username = "";
 var sudokuId = 0;
+var startTime = new Date().getTime();
 $(document).ready(function () {
 	sudokuId = $('#sudokuId').val();
 	$("td.active").click(tdClickHandler);
+	setInterval(updateTimer, 1000);
 });
 
 function tdClickHandler(e) {
@@ -55,4 +57,20 @@ function sendResult(v, i) {
 			username = data.username;
 		}
 	});
+}
+
+function updateTimer() {
+	  var now = new Date().getTime();
+	  var distance = now - startTime;
+
+	  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+	  days = days > 0 ? days + "d " : "";
+	  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	  hours = hours > 0 ? hours + "h " : "";
+	  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+	  minutes = minutes > 0 ? minutes + "m " : "";
+	  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+	  seconds = seconds > 0 ? seconds + "s" : "";
+
+	  $('#timer').html(days + hours + minutes + seconds);
 }

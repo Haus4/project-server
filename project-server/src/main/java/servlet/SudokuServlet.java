@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -207,10 +208,11 @@ public class SudokuServlet extends HttpServlet {
 	private void createHighscoreRow(int sudokuId, String username) {
 		try {
 			PreparedStatement ps = this.db
-					.prepareStatement("insert into highscore(sudokuid,username,points) values(?,?,?)");
+					.prepareStatement("insert into highscore(sudokuid,username,points,timestamp) values(?,?,?,?)");
 			ps.setInt(1, sudokuId);
 			ps.setString(2, username);
 			ps.setInt(3, 0);
+			ps.setString(4, new Date().toString());
 			db.execute(ps);
 		} catch (SQLException e) {
 			e.printStackTrace();
