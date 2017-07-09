@@ -74,7 +74,7 @@ public class DBHelper {
 			maxHoles = 60;
 			break;
 		}
-		return (int) (Math.random() * minHoles + (maxHoles - minHoles));
+		return (int) (Math.random() * (maxHoles - minHoles) + minHoles);
 	}
 
 	private void generateSudokusForDifficulty(int diff, int count) {
