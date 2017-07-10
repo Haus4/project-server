@@ -21,7 +21,7 @@ public class DBHelper {
 
 	public DBHelper() {
 		this.db = new SudokuDB(
-				"C:\\Projects\\Haus4\\projects\\project-server\\project-server\\src\\main\\webapp\\db\\database.db");
+				"D:\\database.db");
 		// this.db = new SudokuDB("C:\\Users\\mauri\\Desktop\\database.db");
 		this.sg = new SudokuGenerator();
 

@@ -50,20 +50,30 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
+				<tr id="platz1">
 					<td>1.</td>
-					<td>263627</td>
-					<td>dhudusj</td>
+					<td id="score"></td>
+					<td id="player"></td>
 				</tr>
-				<tr>
+				<tr id="platz2">
 					<td>2.</td>
-					<td>32117</td>
-					<td>ojio</td>
+					<td id="score"></td>
+					<td id="player"></td>
 				</tr>
-				<tr>
+				<tr id="platz3">
 					<td>3.</td>
-					<td>13627</td>
-					<td>bhcb</td>
+					<td id="score"></td>
+					<td id="player"></td>
+				</tr>
+				<tr id="platz4">
+					<td>4.</td>
+					<td id="score"></td>
+					<td id="player"></td>
+				</tr>
+				<tr id="platz5">
+					<td>5.</td>
+					<td id="score"></td>
+					<td id="player"></td>
 				</tr>
 			</tbody>
 		</table>

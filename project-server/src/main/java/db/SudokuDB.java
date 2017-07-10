@@ -9,12 +9,12 @@ public class SudokuDB {
 	private String backupFilePath;
 
 	public SudokuDB(String file) {
-		this.backupFilePath = file;
+		this.backupFilePath = "D:\\database.db";
 		try {
 			Class.forName("org.sqlite.JDBC");
 			this.connection = DriverManager.getConnection("jdbc:sqlite::memory:");
 			this.statement = this.connection.createStatement();
-			statement.executeUpdate("restore from "+backupFilePath);
+			statement.executeUpdate("restore from " + backupFilePath);
 			System.out.println("Database opened");
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
