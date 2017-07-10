@@ -1,10 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
-
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
- <link rel="shortcut icon" href="img/favicon.ico" />
+<link rel="shortcut icon" href="img/favicon.ico" />
 <link href="https://fonts.googleapis.com/css?family=Open+Sans"
 	rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
@@ -13,7 +13,6 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/sudoku.js"></script>
 </head>
-
 <body>
 	<div class="header">
 		<h1>
@@ -39,8 +38,37 @@
 		</div>
 	</nav>
 	<div class="container">
+		<table id="highscore">
+			<caption>
+				<b>Highscore</b>
+			</caption>
+			<thead>
+				<tr>
+					<td></td>
+					<td><b>Punkte</b></td>
+					<td><b>Spieler</b></td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>1.</td>
+					<td>263627</td>
+					<td>dhudusj</td>
+				</tr>
+				<tr>
+					<td>2.</td>
+					<td>32117</td>
+					<td>ojio</td>
+				</tr>
+				<tr>
+					<td>3.</td>
+					<td>13627</td>
+					<td>bhcb</td>
+				</tr>
+			</tbody>
+		</table>
 		<jsp:useBean id="sudokuBean" scope="session" class="beans.SudokuBean"></jsp:useBean>
-		<table>
+		<table id="Sudoku">
 			<c:set var="rows" value="${ sudokuBean.getRows() }"></c:set>
 			<c:set var="collumns" value="${ sudokuBean.getCollumns() }"></c:set>
 			<c:set var="fieldArr" value="${ sudokuBean.getFormattedArr() }"></c:set>
@@ -58,13 +86,13 @@
 		</table>
 	</div>
 	<div class="countdown">
-		<span>Timer:</span>
-		<span id="timer"></span>
-	</div>
+ 		<span>Timer:</span>
+ 		<span id="timer"></span>
+ 	</div>
 	<input type="hidden" id="sudokuId"
 		value="${ sudokuBean.getSudokuId() }" />
 </body>
-
+ 
 <footer>
 	<div class="container">
 		<ul>
@@ -72,5 +100,4 @@
 		</ul>
 	</div>
 </footer>
-
 </html>

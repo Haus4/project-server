@@ -1,25 +1,42 @@
-table {
-    border-collapse: collapse;
-    border: 2px solid black;
+table[id="Sudoku"] {
+	border-collapse: collapse;
+	border: 2px solid black;
 }
 
-th, td {
-    border: 1px solid black;
-    text-align: center;
-    font-weight: bold;
-    width: 55px;
-    height: 55px;
-    font-family: sans-serif;
-    background: rgba(100,100,100,0.05);
+table[id="Sudoku"] th, table[id="Sudoku"] td {
+	border: 1px solid black;
+	text-align: center;
+	font-weight: bold;
+	width: 55px;
+	height: 55px;
+	font-family: sans-serif;
+	background: rgba(100, 100, 100, 0.05);
+}
+
+table[id="highscore"] {
+	float: right;
+	border-collapse: collapse;
+}
+
+table[id="highscore"] th, table[id="highscore"] td {
+	border-bottom: 1px solid #ddd;
+	width: 70px;
+}
+
+caption {
+	font-size: x-large;
+	color: black;
+	line-height: 50px;
+	font-variant: small-caps;
 }
 
 .active {
-	background: white;
+	background: white !important;
 }
 
 input {
 	width: 20px;
-} 
+}
 
 textarea {
 	resize: none;
@@ -29,23 +46,21 @@ textarea {
 	width: 500px;
 	text-align: center;
 	font-size: 25px;
+}
+
+.container>table {
 	margin: auto;
 	margin-top: 50px;
 }
 
-.container > table {
-	margin: auto;
-	margin-top: 50px;
-}
-
-td.active, #inputField {
-    cursor: pointer;
+table[id="Sudoku"] td.active, #inputField {
+	cursor: pointer;
 }
 
 #inputField {
-    outline: none;
-    border: none;
-    text-align: center;
+	outline: none;
+	border: none;
+	text-align: center;
 }
 
 .r0c2, .r1c2, .r2c2, .r3c2, .r4c2, .r5c2, .r6c2, .r7c2, .r8c2 {
