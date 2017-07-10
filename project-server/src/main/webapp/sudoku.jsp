@@ -84,13 +84,12 @@
 				</tr>
 			</c:forEach>
 		</table>
+		<div class="countdown">
+			<span>Timer:</span>
+			<span id="timer"></span>
+		</div>
+		<input type="hidden" id="sudokuId" value="${ sudokuBean.getSudokuId() }" />
 	</div>
-	<div class="countdown">
- 		<span>Timer:</span>
- 		<span id="timer"></span>
- 	</div>
-	<input type="hidden" id="sudokuId"
-		value="${ sudokuBean.getSudokuId() }" />
 </body>
  
 <footer>
