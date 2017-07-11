@@ -3,31 +3,25 @@ package beans;
 public class HighscoreBean {
 
 	private String username;
-	private int sudokuID;
 	private SudokuBean sudokuBean;
 
 	// temporary score
 	private int fieldsCorrect = 0;
-	private int fieldsToSolve;
 
 	public HighscoreBean(String username, SudokuBean sudokuBean) {
 		this.setUsername(username);
 		this.setSudokuBean(sudokuBean);
-		this.setSudokuID(sudokuBean.getSudokuId());
-		this.fieldsToSolve = sudokuBean.getEmptyFields();
 	}
 
 	public boolean checkHighscore(boolean correctField) {
 		boolean saveHighscore = false;
 		if (correctField)
 			fieldsCorrect++;
-		if (fieldsCorrect >= fieldsToSolve) {
+		if (fieldsCorrect >= sudokuBean.getEmptyFields()) {
 			// TODO: remove this line..
-			System.out.println(username + " finished sudoku " + sudokuID + " with " + fieldsCorrect + "/"
-					+ fieldsToSolve + " correct fields");
+			System.out.println(username + " finished sudoku " + sudokuBean.getSudokuId() + " with " + fieldsCorrect + "/"
+					+ sudokuBean.getEmptyFields() + " correct fields");
 			saveHighscore = true;
-			fieldsCorrect = 0;
-			fieldsToSolve = 0;
 		}
 		return saveHighscore;
 	}
@@ -41,11 +35,7 @@ public class HighscoreBean {
 	}
 
 	public int getSudokuID() {
-		return sudokuID;
-	}
-
-	public void setSudokuID(int sudokuID) {
-		this.sudokuID = sudokuID;
+		return sudokuBean.getSudokuId();
 	}
 
 	public SudokuBean getSudokuBean() {

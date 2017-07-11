@@ -7,9 +7,13 @@ import java.nio.IntBuffer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.UUID;
 
@@ -161,7 +165,7 @@ public class SudokuServlet extends HttpServlet {
 		int index = getHighscoreIndex(username);
 
 		if (tempHighscores.get(index).checkHighscore(result)) {
-			insertHighscore(100, username);
+			insertHighscore(username);
 		}
 		return result;
 	}
@@ -227,15 +231,60 @@ public class SudokuServlet extends HttpServlet {
 		}
 	}
 
-	private void insertHighscore(int points, String username) {
+	private void insertHighscore(String username) {
+		int points = calculatePoints(username);
 		try {
-			PreparedStatement ps = this.db.prepareStatement("update highscore set points = ? where username = ?");
+			PreparedStatement ps = this.db.prepareStatement("update highscore set points = ? where username = ? and sudokuid = ?");
 			ps.setInt(1, points);
 			ps.setString(2, username);
+			ps.setInt(3, sudoku.getSudokuId());
 			db.execute(ps);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private int calculatePoints(String username) {
+		int points = 0;
+		double lossFac = 1;
+		try {
+			Date start = getTimeStamp(username);
+			Date current = new Date();
+			long seconds = Math.abs(start.getTime()-current.getTime())/1000;
+			switch (sudoku.getDiff()){
+				case EASY:
+					if (seconds > 300) lossFac = 1 / (seconds/300);
+					points = (int) Math.floor(1000 * lossFac);
+					break;
+				case MEDIUM:
+					if (seconds > 600) lossFac = 1 / (seconds/600);
+					points = (int) Math.floor(2500 * lossFac);
+					break;
+				case HARD:
+					if (seconds > 1200) lossFac = 1 / (seconds/1200);
+					points = (int) Math.floor(10000 * lossFac);
+					break;
+				default:
+					throw new Exception("No valid Difficulty for sudoku "+sudoku.getSudokuId()+" found");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return points;
+	}
+	
+	private Date getTimeStamp(String username) throws ParseException, SQLException {
+		Date timeStamp = null;
+		
+		PreparedStatement ps = this.db.prepareStatement("SELECT * FROM HIGHSCORE WHERE USERNAME = ? AND SUDOKUID = ?");
+		ps.setString(1, username);
+		ps.setInt(2, sudoku.getSudokuId());
+		ResultSet rs = ps.executeQuery();
+		
+		String time = rs.getString("timestamp").replace(" CEST", "");
+		DateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", Locale.ENGLISH);
+		if (time!=null) timeStamp = format.parse(time);
+		return timeStamp;
 	}
 
 	private int getHighscoreIndex(String username) {
@@ -251,10 +300,15 @@ public class SudokuServlet extends HttpServlet {
 		String json = "";
 		try {
 			if (query.equalsIgnoreCase("player")) {
-				PreparedStatement ps = this.db.prepareStatement("SELECT * FROM HIGHSCORE WHERE USERNAME = ?");
+				PreparedStatement ps = this.db.prepareStatement("SELECT * FROM HIGHSCORE WHERE USERNAME = ? AND SUDOKUID = ?");
 				ps.setString(1, username);
+				ps.setInt(2, sudoku.getSudokuId());
 				ResultSet rs = ps.executeQuery();
-				json = "{ \"username\" : \"" + username + "\", \"points\" : " + rs.getInt("points") + " }";
+				if(!rs.isClosed()){
+					json = "{ \"username\" : \"" + username + "\", \"points\" : " + rs.getInt("points") + " }";
+				} else {
+					json = "{\n\t\"scores\" : []\n}";
+				}
 			} else if (query.equalsIgnoreCase("sudoku")) {
 				PreparedStatement ps = this.db
 						.prepareStatement("SELECT * FROM HIGHSCORE WHERE SUDOKUID = ? ORDER BY points DESC");
