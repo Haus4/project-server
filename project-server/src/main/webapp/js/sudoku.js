@@ -3,9 +3,10 @@ var sudokuId = 0;
 var startTime = new Date().getTime();
 $(document).ready(function() {
 	sudokuId = $('#sudokuId').val();
+	getUserName();
 	$("td.active").click(tdClickHandler);
 	setInterval(updateTimer, 1000);
-	setHighscore("sudoku");
+	setTimeout(function(){setHighscore("sudoku")},250);
 });
 
 function tdClickHandler(e) {
@@ -43,6 +44,16 @@ function inputKeyUpHandler(e) {
 	}
 }
 
+function getUserName() {
+	username = window.prompt("Username:");
+	$.ajax({
+		url : window.location.href.split("/project-server")[0]
+				+ "/project-server/sudoku?sudokuId=" + sudokuId
+				+ "&username=" + username,
+		type: 'POST'
+	});
+}
+
 function sendResult(v, i) {
 	$.ajax({
 		url : window.location.href.split("/project-server")[0]
@@ -64,31 +75,20 @@ function sendResult(v, i) {
 function setHighscore(q) {
 	$.ajax({
 		url : window.location.href.split("/project-server")[0]
-				+ "/project-server/sudoku?id=" + i + "&sudokuId=" + sudokuId
+				+ "/project-server/sudoku?sudokuId=" + sudokuId
+				+ "&username=" + username
 				+ "&getHS=" + q,
 		type : 'POST',
 		success : function(data) {
 			if (q == "sudoku") {
 				var array = data.scores;
-				if (array.length == 0) {
-					end;
-				} else {
-					for (var j = 1; j <= array.length; j++) {
-						var username = array[j].username;
-						var highscorePoints = array[j].points;
-						$("#platz" + j).children().find('<td id="score"></td>').text(highscorePoints);
-						$("#platz" + j).children().find('<td id="player"></td>').text(username);
-					}
+				for (var j = 0; j < array.length; j++) {
+					var username = array[j].username;
+					var highscorePoints = array[j].points;
+					$("#platz" + (j+1)).find('td#score').text(highscorePoints);
+					$("#platz" + (j+1)).find('td#player').text(username);
 				}
 			}
-
-			var diff = window.location.href.split("diff=")[1].toLowerCase();
-			if (data.check == "true" && (diff == "easy" || diff == "medium")) {
-				var id = "#" + i[0] + "\\." + i[2];
-				$(id).removeClass('active');
-				$(id).unbind('click');
-			}
-			username = data.username;
 		}
 	});
 }

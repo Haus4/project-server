@@ -20,8 +20,8 @@ public class DBHelper {
 	private SudokuGenerator sg;
 
 	public DBHelper() {
-		this.db = new SudokuDB(
-				"D:\\database.db");
+		this.db = new SudokuDB("D:\\database.db");
+		// this.db = new SudokuDB("C:\\Projects\\Haus4\\projects\\project-server\\project-server\\src\\main\\webapp\\db\\database.db");
 		// this.db = new SudokuDB("C:\\Users\\mauri\\Desktop\\database.db");
 		this.sg = new SudokuGenerator();
 
