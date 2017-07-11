@@ -1,57 +1,97 @@
-table {
-    border-collapse: collapse;
-    border: 2px solid black;
+table#Sudoku {
+	border-collapse: collapse;
+	border: 2px solid black;
 }
 
-th, td {
-    border: 1px solid black;
-    text-align: center;
-    font-weight: bold;
-    width: 55px;
-    height: 55px;
-    font-family: sans-serif;
-    background: rgba(100,100,100,0.05);
+table#Sudoku th, table#Sudoku td {
+	border: 1px solid black;
+	text-align: center;
+	font-weight: bold;
+	width: 55px;
+	height: 55px;
+	font-family: sans-serif;
+	background: rgba(100, 100, 100, 0.05);
+}
+
+table#highscore {
+	border-collapse: collapse;
+}
+
+@media (min-width: 1050px) {
+	table#highscore {
+		position: absolute;
+		right: 35px;
+	}
+}
+
+@media (min-width: 1200px) {
+	table#highscore {
+		right: 100px;
+	}
+}
+
+@media (min-width: 1400px) {
+	table#highscore {
+		right: 200px;
+	}
+}
+
+table#highscore th, table#highscore td {
+	border-bottom: 1px solid #ddd;
+	width: 70px;
+}
+
+caption {
+	font-size: x-large;
+	color: black;
+	line-height: 50px;
+	font-variant: small-caps;
 }
 
 .active {
-	background: white;
+	background: white !important;
 }
 
 input {
 	width: 20px;
-} 
+}
 
 textarea {
 	resize: none;
 }
 
-.container > table {
+.countdown {
+	text-align: center;
+	font-size: 25px;
+}
+
+.container>table {
 	margin: auto;
 	margin-top: 50px;
 }
 
-td.active, #inputField {
-    cursor: pointer;
+table#Sudoku td.active, #inputField {
+	cursor: pointer;
 }
 
 #inputField {
-    outline: none;
-    border: none;
-    text-align: center;
+	outline: none;
+	border: none;
+	text-align: center;
 }
 
 .r0c2, .r1c2, .r2c2, .r3c2, .r4c2, .r5c2, .r6c2, .r7c2, .r8c2 {
-	border-right: 2px solid black;
+	border-right: 2px solid black !important;
 }
 
 .r0c6, .r1c6, .r2c6, .r3c6, .r4c6, .r5c6, .r6c6, .r7c6, .r8c6 {
-	border-left: 2px solid black;
+	border-left: 2px solid black !important;
 }
 
 .r2c0, .r2c1, .r2c2, .r2c3, .r2c4, .r2c5, .r2c6, .r2c7, .r2c8 {
-	border-bottom: 2px solid black;
+	border-bottom: 2px solid black !important;
 }
 
 .r6c0, .r6c1, .r6c2, .r6c3, .r6c4, .r6c5, .r6c6, .r6c7, .r6c8 {
-	border-top: 2px solid black;
+	border-top: 2px solid black !important;
 }

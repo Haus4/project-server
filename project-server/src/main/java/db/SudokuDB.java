@@ -6,13 +6,16 @@ public class SudokuDB {
 
 	private Connection connection;
 	private Statement statement;
+	private String backupFilePath;
 
 	public SudokuDB(String file) {
+		this.backupFilePath = "D:\\database.db"; //file
 		try {
 			Class.forName("org.sqlite.JDBC");
-			this.connection = DriverManager.getConnection("jdbc:sqlite:" + file);
+			this.connection = DriverManager.getConnection("jdbc:sqlite::memory:");
 			this.statement = this.connection.createStatement();
-			System.out.println("Database opened: " + file);
+			statement.executeUpdate("restore from " + backupFilePath);
+			System.out.println("Database opened");
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -29,9 +32,8 @@ public class SudokuDB {
 
 	public void execute(PreparedStatement statement) {
 		try {
-			connection.setAutoCommit(false);
-			statement.executeBatch();
-			connection.setAutoCommit(true);
+			statement.execute();
+			this.saveBackup();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -49,6 +51,15 @@ public class SudokuDB {
 	public void executeUpdate(String statement) {
 		try {
 			this.statement.executeUpdate(statement);
+			this.saveBackup();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void saveBackup() {
+		try {
+			statement.executeUpdate("backup to "+ backupFilePath);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -56,6 +67,7 @@ public class SudokuDB {
 
 	public void close() {
 		try {
+			this.saveBackup();
 			this.connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
