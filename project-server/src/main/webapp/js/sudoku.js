@@ -1,14 +1,32 @@
 var username = "";
 var sudokuId = 0;
 var startTime = new Date().getTime();
+var diff = window.location.href.split("diff=")[1].toLowerCase();
 var clock = null;
+var lossTime = 0;
+var lossSet = false;
 $(document).ready(function() {
+	getLossTime();
 	sudokuId = $('#sudokuId').val();
 	getUserName();
 	$("td.active").click(tdClickHandler);
 	clock = setInterval(updateTimer, 1000);
 	setTimeout(function(){setHighscore("sudoku")},250);
 });
+
+function getLossTime() {
+	switch (diff) {
+	case "easy":
+		lossTime = 300;
+		break;
+	case "medium":
+		lossTime = 600;
+		break;
+	case "hard":
+		lossTime = 1200;
+		break;
+	}
+}
 
 function tdClickHandler(e) {
 	e.stopPropagation();
@@ -62,7 +80,6 @@ function sendResult(v, i) {
 				+ "&username=" + username + "&sudokuId=" + sudokuId,
 		type : 'POST',
 		success : function(data) {
-			var diff = window.location.href.split("diff=")[1].toLowerCase();
 			if (data.check == "true" && (diff == "easy" || diff == "medium")) {
 				var id = "#" + i[0] + "\\." + i[2];
 				$(id).removeClass('active');
@@ -107,6 +124,11 @@ function updateTimer() {
 	minutes = minutes > 0 ? minutes + "m " : "";
 	var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 	seconds = seconds > 0 ? seconds + "s" : "";
+	
+	if(!lossSet && Math.floor(distance/1000) > lossTime) {
+		lossSet = true;
+		$('.countdown').css("color", "red");
+	}
 
 	$('#timer').html(days + hours + minutes + seconds);
 }
