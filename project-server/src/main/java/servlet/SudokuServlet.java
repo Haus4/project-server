@@ -130,7 +130,7 @@ public class SudokuServlet extends HttpServlet {
 			boolean isCorrect = this.checkSudokuField(id, value, username);
 			response.setContentType("application/json");
 			response.getWriter().append(
-					"{ \"username\" : \"" + username + "\", \"check\" : \"" + String.valueOf(isCorrect) + "\" }");
+					"{ \"username\" : \"" + StringEscapeUtils.escapeJson(username) + "\", \"check\" : \"" + String.valueOf(isCorrect) + "\" }");
 			response.getWriter().flush();
 			return;
 		}

@@ -1,11 +1,12 @@
 var username = "";
 var sudokuId = 0;
 var startTime = new Date().getTime();
+var clock = null;
 $(document).ready(function() {
 	sudokuId = $('#sudokuId').val();
 	getUserName();
 	$("td.active").click(tdClickHandler);
-	setInterval(updateTimer, 1000);
+	clock = setInterval(updateTimer, 1000);
 	setTimeout(function(){setHighscore("sudoku")},250);
 });
 
