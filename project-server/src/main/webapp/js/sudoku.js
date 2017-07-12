@@ -45,7 +45,7 @@ function inputKeyUpHandler(e) {
 }
 
 function getUserName() {
-	username = window.prompt("Username:");
+	username = escape(window.prompt("Username:"));
 	$.ajax({
 		url : window.location.href.split("/project-server")[0]
 				+ "/project-server/sudoku?sudokuId=" + sudokuId

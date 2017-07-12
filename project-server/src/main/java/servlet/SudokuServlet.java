@@ -22,6 +22,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import beans.HighscoreBean;
@@ -99,8 +101,9 @@ public class SudokuServlet extends HttpServlet {
 
 		String sudokuId = request.getParameter("sudokuId");
 		String username = request.getParameter("username");
+		username = username != null ? StringEscapeUtils.unescapeEcmaScript(username) : null;
 
-		if (username != null && !hasUserHighscore(username)) {
+		if (username != null && username != "null" && !hasUserHighscore(username)) {
 			int currentId = Integer.parseInt(sudokuId);
 			if (sudoku.getSudokuId() != currentId) {
 				loadSudokuForId(currentId);
@@ -315,13 +318,13 @@ public class SudokuServlet extends HttpServlet {
 				ps.setInt(1, sudoku.getSudokuId());
 				ResultSet rs = ps.executeQuery();
 				if(!rs.isClosed()){
-					json = "{\n\t\"scores\" : [\n\t\t{ \"username\" : \"" + rs.getString("username") + "\", \"points\" : "
+					json = "{\n\t\"scores\" : [\n\t\t{ \"username\" : \"" + StringEscapeUtils.escapeJson(rs.getString("username")) + "\", \"points\" : "
 							+ rs.getInt("points") + " },\n";
 					for (int i = 0; i < 4; i++) {
 						String oldUser = rs.getString("username");
 						if (rs.next()) {
 							if(oldUser.equals(rs.getString("username"))) continue;
-							json += "\t\t{ \"username\" : \"" + rs.getString("username") + "\", \"points\" : "
+							json += "\t\t{ \"username\" : \"" + StringEscapeUtils.escapeJson(rs.getString("username")) + "\", \"points\" : "
 									+ rs.getInt("points") + " },\n";
 						} else {
 							break;
