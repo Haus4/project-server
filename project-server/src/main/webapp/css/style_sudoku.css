@@ -65,9 +65,13 @@ textarea {
 	font-size: 25px;
 }
 
-.container>table {
+.container table {
 	margin: auto;
 	margin-top: 50px;
+}
+
+.sudoku-container {
+	overflow-y: hidden;
 }
 
 table#Sudoku td.active, #inputField {
