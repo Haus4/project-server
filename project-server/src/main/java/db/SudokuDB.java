@@ -9,7 +9,7 @@ public class SudokuDB {
 	private String backupFilePath;
 
 	public SudokuDB(String file) {
-		this.backupFilePath = "D:\\database.db"; //file
+		this.backupFilePath = file;
 		try {
 			Class.forName("org.sqlite.JDBC");
 			this.connection = DriverManager.getConnection("jdbc:sqlite::memory:");
