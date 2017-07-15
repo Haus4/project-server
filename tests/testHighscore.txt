@@ -1,0 +1,2 @@
+{ "username" : "testUser" }
+{ "username" : "testUser", "points" : 0 }

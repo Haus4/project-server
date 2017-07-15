@@ -87,11 +87,19 @@ function inputKeyUpHandler(e) {
 
 function getUserName() {
 	username = escape(window.prompt("Username:"));
+	if(username == "null") {
+		alert("Please enter a username!");
+		getUserName();
+	}
+	startTime = new Date().getTime();
 	$.ajax({
-		url: window.location.href.split("/project-server")[0]
+		url : window.location.href.split("/project-server")[0]
 		+ "/project-server/sudoku?sudokuId=" + sudokuId
 		+ "&username=" + username,
-		type: 'POST'
+		type: 'POST',
+		success : function(data) {
+			username = data.username;
+		}
 	});
 }
 
@@ -122,12 +130,17 @@ function setHighscore(q) {
 		success: function (data) {
 			if (q == "sudoku") {
 				var array = data.scores;
+				if (array.length == 0) {
+					console.err("No highscore found trying again in 1 sec ...")
+					setTimeout(function(){setHighscore("sudoku")},1000);
+				}
 				for (var j = 0; j < array.length; j++) {
 					var username = array[j].username;
 					var highscorePoints = array[j].points;
 					$("#platz" + (j + 1)).find('td#score').text(highscorePoints);
 					$("#platz" + (j + 1)).find('td#player').text(username);
 				}
+				setTimeout(function(){setHighscore("sudoku")},10000);
 			}
 		}
 	});

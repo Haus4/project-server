@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -23,8 +24,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import beans.HighscoreBean;
 import beans.SudokuBean;
@@ -49,6 +50,7 @@ public class SudokuServlet extends HttpServlet {
 		super();
 	}
 
+	@Override
 	public void init() {
 		this.rand = new Random();
 		this.db = new SudokuDB(this.getServletContext().getRealPath("/db/database.db"));
@@ -69,13 +71,13 @@ public class SudokuServlet extends HttpServlet {
 	 *      Possible Request: - Reload Sudoku & return : diff != null forwards
 	 *      to jsp
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String diff = request.getParameter("diff");
 
 		if (diff != null) {
 			diff = diff.toUpperCase();
-			this.sudoku.updateFormattedArr();
 			this.loadSudokuFromDB(SudokuDifficulty.valueOf(diff));
 			request.getSession().setAttribute("sudokuBean", sudoku);
 			request.getServletContext().getRequestDispatcher("/sudoku.jsp").forward(request, response);
@@ -96,6 +98,7 @@ public class SudokuServlet extends HttpServlet {
 	 *      - Get Highscore & return : hsQuery != null returns json with
 	 *      highscore/(s) (username + points)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -103,7 +106,7 @@ public class SudokuServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		username = username != null ? StringEscapeUtils.unescapeEcmaScript(username) : null;
 
-		if (username != null && username != "null" && !hasUserHighscore(username)) {
+		if (username != null && !username.equals("null") && !hasUserHighscore(username, Integer.parseInt(sudokuId))) {
 			int currentId = Integer.parseInt(sudokuId);
 			if (sudoku.getSudokuId() != currentId) {
 				loadSudokuForId(currentId);
@@ -113,8 +116,14 @@ public class SudokuServlet extends HttpServlet {
 				username = "guest" + UUID.randomUUID().toString();
 			}
 			request.setAttribute("username", username);
-			tempHighscores.add(new HighscoreBean(username, sudoku));
+			SudokuBean bean = copyBean(sudoku);
+			tempHighscores.add(new HighscoreBean(username, bean));
 			createHighscoreRow(sudoku.getSudokuId(), username);
+			response.setContentType("application/json");
+			response.getWriter().append(
+					"{ \"username\" : \"" + StringEscapeUtils.escapeJson(username) + "\" }");
+			response.getWriter().flush();
+			return;
 		}
 
 		if (sudokuId != null && username != null) {
@@ -292,7 +301,7 @@ public class SudokuServlet extends HttpServlet {
 
 	private int getHighscoreIndex(String username) {
 		for (HighscoreBean hsb : tempHighscores) {
-			if (hsb.getUsername() == username)
+			if (hsb.getUsername() == username && hsb.getSudokuID() == sudoku.getSudokuId())
 				return tempHighscores.indexOf(hsb);
 		}
 
@@ -320,7 +329,7 @@ public class SudokuServlet extends HttpServlet {
 				if(!rs.isClosed()){
 					json = "{\n\t\"scores\" : [\n\t\t{ \"username\" : \"" + StringEscapeUtils.escapeJson(rs.getString("username")) + "\", \"points\" : "
 							+ rs.getInt("points") + " },\n";
-					for (int i = 0; i < 4; i++) {
+					for (int i = 0; i < 5; i++) {
 						String oldUser = rs.getString("username");
 						if (rs.next()) {
 							if(oldUser.equals(rs.getString("username"))) continue;
@@ -341,9 +350,9 @@ public class SudokuServlet extends HttpServlet {
 		return json;
 	}
 	
-	private boolean hasUserHighscore(String username) {
+	private boolean hasUserHighscore(String username, int sudokuId) {
 		for (HighscoreBean hsb : tempHighscores) {
-			if(username.equalsIgnoreCase(hsb.getUsername())) {
+			if(username.equals(hsb.getUsername()) && sudokuId == hsb.getSudokuID()) {
 				return true;
 			}
 		}
@@ -353,7 +362,7 @@ public class SudokuServlet extends HttpServlet {
 	private SudokuBean getSudokuForId(int sudokuId) {
 		for (HighscoreBean hsb : tempHighscores) {
 			if (hsb.getSudokuID() == sudokuId) {
-				return hsb.getSudokuBean();
+				return copyBean(hsb.getSudokuBean());
 			}
 		}
 
@@ -376,6 +385,35 @@ public class SudokuServlet extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private SudokuBean copyBean(SudokuBean bean){
+		SudokuBean copyBean = new SudokuBean();
+		copyBean.setDiff(bean.getDiff());
+		copyBean.setEmptyFields(bean.getEmptyFields());
+		copyBean.setField(deepCopy(bean.getField()));
+		copyBean.setFormattedArr(deepCopy(bean.getFormattedArr()));
+		copyBean.setSolved(deepCopy(bean.getSolved()));
+		copyBean.setSudokuId(bean.getSudokuId());
+		return copyBean;
+	}
+	
+	public String[][] deepCopy(String[][] original) {
+		if(original == null) return null;
+		final String[][] result = new String[original.length][];
+		for(int i=0; i<original.length; i++){
+			result[i] = Arrays.copyOf(original[i], original[i].length);
+		}
+		return result;
+	}
+	
+	public int[][] deepCopy(int[][] original) {
+		if(original == null) return null;
+		final int[][] result = new int[original.length][];
+		for(int i=0; i<original.length; i++){
+			result[i] = Arrays.copyOf(original[i], original[i].length);
+		}
+		return result;
 	}
 
 }
