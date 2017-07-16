@@ -76,6 +76,7 @@ function inputKeyUpHandler(e) {
 	{
 		var test = $('#inputField').val();
 		if (parseInt(test) < 10 && parseInt(test) > 0) {
+			$(this).parent().removeClass("correct");
 			var id = $(this).parent().get(0).id;
 			sendResult(parseInt(test), id);
 
@@ -87,17 +88,17 @@ function inputKeyUpHandler(e) {
 
 function getUserName() {
 	username = escape(window.prompt("Username:"));
-	if(username == "null") {
+	if (username == "null") {
 		alert("Please enter a username!");
 		getUserName();
 	}
 	startTime = new Date().getTime();
 	$.ajax({
-		url : window.location.href.split("/project-server")[0]
+		url: window.location.href.split("/project-server")[0]
 		+ "/project-server/sudoku?sudokuId=" + sudokuId
 		+ "&username=" + username,
 		type: 'POST',
-		success : function(data) {
+		success: function (data) {
 			username = data.username;
 		}
 	});
@@ -110,10 +111,17 @@ function sendResult(v, i) {
 		+ "&username=" + username + "&sudokuId=" + sudokuId,
 		type: 'POST',
 		success: function (data) {
-			if (data.check == "true" && (diff == "easy" || diff == "medium")) {
+			if (data.check == "true") {
 				var id = "#" + i[0] + "\\." + i[2];
-				$(id).removeClass('active');
-				$(id).unbind('click');
+				if (diff == "easy" || diff == "medium") {
+					$(id).removeClass('active');
+					$(id).unbind('click');
+				}
+				$(id).addClass("correct");
+
+				if ($("#Sudoku .active").not(".correct").length == 0) {
+					sudokuDoneHandler();
+				}
 			}
 			username = data.username;
 		}
@@ -132,7 +140,7 @@ function setHighscore(q) {
 				var array = data.scores;
 				if (array.length == 0) {
 					console.err("No highscore found trying again in 1 sec ...")
-					setTimeout(function(){setHighscore("sudoku")},1000);
+					setTimeout(function () { setHighscore("sudoku") }, 1000);
 				}
 				for (var j = 0; j < array.length; j++) {
 					var username = array[j].username;
@@ -140,7 +148,7 @@ function setHighscore(q) {
 					$("#platz" + (j + 1)).find('td#score').text(highscorePoints);
 					$("#platz" + (j + 1)).find('td#player').text(username);
 				}
-				setTimeout(function(){setHighscore("sudoku")},10000);
+				setTimeout(function () { setHighscore("sudoku") }, 10000);
 			}
 		}
 	});
