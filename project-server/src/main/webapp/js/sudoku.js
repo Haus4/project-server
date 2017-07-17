@@ -28,7 +28,7 @@ function sudokuDoneHandler() {
 			"position": "relative"
 		});
 
-		$this.children().detach();
+		$this.empty();
 		countdown.appendTo($this);
 
 		countdown.children().eq(0).html("Sudoku gel&ouml;st in ");
