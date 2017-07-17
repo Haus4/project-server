@@ -22,14 +22,21 @@ function sudokuDoneHandler() {
 	container.find(".inner-container").slideUp(400, function () {
 		var $this = $(this);
 		var countdown = $this.find(".countdown");
+		var highscore = $this.find("#highscore");
 
 		countdown.css({
 			"top": $("#Sudoku").css("margin-top"),
 			"position": "relative"
 		});
 
+		highscore.css({
+			"position": "initial",
+			"margin-top": "100px"
+		});
+
 		$this.empty();
 		countdown.appendTo($this);
+		highscore.appendTo($this);
 
 		countdown.children().eq(0).html("Sudoku gel&ouml;st in ");
 		setTimeout($this.slideDown.bind($this, 400), 100);
