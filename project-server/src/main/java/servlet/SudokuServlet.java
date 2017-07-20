@@ -303,7 +303,7 @@ public class SudokuServlet extends HttpServlet {
 
 	private int getHighscoreIndex(String username) {
 		for (HighscoreBean hsb : tempHighscores) {
-			if (hsb.getUsername() == username && hsb.getSudokuID() == sudoku.getSudokuId())
+			if (hsb.getUsername().equals(username) && hsb.getSudokuID() == sudoku.getSudokuId())
 				return tempHighscores.indexOf(hsb);
 		}
 
