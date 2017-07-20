@@ -197,7 +197,9 @@ public class SudokuServlet extends HttpServlet {
 			int[][] solved = byteToIntArr(rs.getBytes("solved"));
 			int id = rs.getInt("id");
 			int open = rs.getInt("open");
+			int diffOrd = rs.getInt("diff");
 
+			sudoku.setDiff(SudokuDifficulty.values()[diffOrd]);
 			sudoku.setSudokuId(id);
 			sudoku.setField(field);
 			sudoku.setSolved(solved);
